@@ -12,3 +12,10 @@ All existing classic and PQC key distribution systems re main vulanerable to att
 The risk is often associated with quantum day (Q-day), the point when quantum systems are expected to render eall classic and PQC key exchaneg algorithms and standardsobsolete.
 
 The ITSKD provide a plug and play solution to exisdting alssic public key based key exchaneg solutions whcih makes them Information Theoretic Secure agains all known and unnknonw atatck vectors fro all time into the future, without any change to the existing alsssic algorithms..
+
+Notes
+1. The ITSKD uses no public key based algoritms
+2. THe ITSKD is built upon the ITS -One Cipher and ITS-KMS infastructure.
+3. The ITS-KD comes with this proof of security
+https://github.com/Money-2021/VaultedObjects/blob/main/Proof
+
