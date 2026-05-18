@@ -1,0 +1,51 @@
+
+[TestMethod]
+public void InfoSec_KD()
+{
+   
+    SET_INFO();
+  
+    string device_sin = Environment.GetEnvironmentVariable("DeviceTestA");
+    string userTokenPath = @"D:\Examples\Info\Token-" + device_sin + ".json";
+    Fido.FidoProvider fp = new Fido.FidoProvider(userTokenPath);
+
+    //optionally specify device secure identities
+    string sin = Environment.GetEnvironmentVariable("TestA");
+    string[] devices = new string[] { device_sin, Environment.GetEnvironmentVariable("DeviceTestB") };
+    string connectToken = FunctionInfoSec.Providers.JwtProvider.IssueConnectJwtoken(sin, fp.Audience(), devices);
+
+  
+
+    // Extract Function endpoint from Device Token
+    var securityToken = new JwtSecurityToken(fp.GetJwToken());
+    Uri _baseUri = new Uri(securityToken.Audiences.FirstOrDefault());
+
+    // Build funtion endpoint Uri
+    HttpClient _httpClient = new HttpClient();
+    string _relativeUrl = "api/ExtractKey";
+    Uri _uri = new Uri(_baseUri, _relativeUrl);
+    _httpClient.BaseAddress = _baseUri;
+
+    // Add Device Jwtoken
+    _httpClient.DefaultRequestHeaders.Add("x-token", fp.GetJwToken());
+
+    // Add offline connect JwToken as content 
+    StringContent content = new StringContent(connectToken);
+
+    HttpResponseMessage response = _httpClient.PostAsync(_uri, content).Result;
+    if (response.IsSuccessStatusCode)
+    {
+        // download vernan cipher protected secret (Medley vectors) bound to this device..
+        string data = response.Content.ReadAsStringAsync().Result;
+        LinkInfo li = new LinkInfo(data);
+        byte[] keyBytes = fp.DeviceEcDhUnProtect(li);
+       
+    }
+    else
+    {
+        // fail
+        string error = response.Content.ReadAsStringAsync().Result;
+        throw new Exception(error);
+    }
+
+}
