@@ -13,6 +13,9 @@ The risk is often associated with quantum day (Q-day), the point when quantum sy
 
 The ITSKD provide a plug and play solution to exisdting alssic public key based key exchaneg solutions whcih makes them Information Theoretic Secure agains all known and unnknonw atatck vectors fro all time into the future, without any change to the existing alsssic algorithms..
 
+Information Theoretic Secure - Key Distribution, provides a proven secure replacement for NSA FIREFLY and EKMS using defence organisations including the ADF today.
+
+
 Notes
 1. The ITSKD uses no public key based algoritms
 2. THe ITSKD is built upon the ITS -One Cipher and ITS-KMS infastructure.
