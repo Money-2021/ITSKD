@@ -9,9 +9,10 @@ public void InfoSec_KD()
     string userTokenPath = @"D:\Examples\Info\Token-" + device_sin + ".json";
     Fido.FidoProvider fp = new Fido.FidoProvider(userTokenPath);
 
-    //optionally specify device secure identities
+    //optionally specify two end-point device secure identities
     string sin = Environment.GetEnvironmentVariable("TestA");
-    string[] devices = new string[] { device_sin, Environment.GetEnvironmentVariable("DeviceTestB") };
+   string device_b =  Environment.GetEnvironmentVariable("DeviceTestB");
+    string[] devices = new string[] { device_sin,device_b };
     string connectToken = FunctionInfoSec.Providers.JwtProvider.IssueConnectJwtoken(sin, fp.Audience(), devices);
 
   
