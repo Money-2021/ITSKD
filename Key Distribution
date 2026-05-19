@@ -1,52 +1,100 @@
+There are two supported funtions: Connect and ExtractKey 
 
-[TestMethod]
-public void InfoSec_KD()
-{
-   
-    SET_INFO();
-  
-    string device_sin = Environment.GetEnvironmentVariable("DeviceTestA");
-    string userTokenPath = @"D:\Examples\Info\Token-" + device_sin + ".json";
-    Fido.FidoProvider fp = new Fido.FidoProvider(userTokenPath);
+ [TestMethod]
+ public void InfoSec_KD_connect()
+ {
+     // QKD replacement
+     SET_INFO();
+     string sin = Environment.GetEnvironmentVariable("TestA");
+     string userTokenPath = @"D:\Examples\Info\Token-" + sin + ".json";
+     Fido.FidoProvider fp = new Fido.FidoProvider(userTokenPath);
 
-    //optionally specify two end-point device secure identities
-    string sin = Environment.GetEnvironmentVariable("TestA");
-   string device_b =  Environment.GetEnvironmentVariable("DeviceTestB");
-    string[] devices = new string[] { device_sin,device_b };
-    string connectToken = FunctionInfoSec.Providers.JwtProvider.IssueConnectJwtoken(sin, fp.Audience(), devices);
+     // Connected Devices     
+     string device_sinA = Environment.GetEnvironmentVariable("DeviceTestA");
+     string device_sinB = Environment.GetEnvironmentVariable("DeviceTestB");
+     string[] devices = new string[] { device_sinA, device_sinB };
 
-  
+     string connectToken = FunctionInfoSec.Providers.JwtProvider.IssueConnectJwtoken(sin, fp.Audience(), devices);
 
-    // Extract Function endpoint from Device Token
-    var securityToken = new JwtSecurityToken(fp.GetJwToken());
-    Uri _baseUri = new Uri(securityToken.Audiences.FirstOrDefault());
 
-    // Build funtion endpoint Uri
-    HttpClient _httpClient = new HttpClient();
-    string _relativeUrl = "api/ExtractKey";
-    Uri _uri = new Uri(_baseUri, _relativeUrl);
-    _httpClient.BaseAddress = _baseUri;
+     // Extract Function endpoint 
+       Uri _baseUri = new Uri(fp.Audience());
 
-    // Add Device Jwtoken
-    _httpClient.DefaultRequestHeaders.Add("x-token", fp.GetJwToken());
+     // Build funtion endpoint Uri
+     HttpClient _httpClient = new HttpClient();
+     string _relativeUrl = "api/Connect";
+     Uri _uri = new Uri(_baseUri, _relativeUrl);
+     _httpClient.BaseAddress = _baseUri;
 
-    // Add offline connect JwToken as content 
-    StringContent content = new StringContent(connectToken);
+     // Add Device Jwtoken
+     _httpClient.DefaultRequestHeaders.Add("x-token", fp.GetJwToken());
 
-    HttpResponseMessage response = _httpClient.PostAsync(_uri, content).Result;
-    if (response.IsSuccessStatusCode)
-    {
-        // download vernan cipher protected secret (Medley vectors) bound to this device..
-        string data = response.Content.ReadAsStringAsync().Result;
-        LinkInfo li = new LinkInfo(data);
-        byte[] keyBytes = fp.DeviceEcDhUnProtect(li);
-       
-    }
-    else
-    {
-        // fail
-        string error = response.Content.ReadAsStringAsync().Result;
-        throw new Exception(error);
-    }
+     // Add devices as content 
+     string json = System.Text.Json.JsonSerializer.Serialize(devices);
+     StringContent content = new StringContent(json);
 
-}
+     HttpResponseMessage response = _httpClient.PostAsync(_uri, content).Result;
+     if (response.IsSuccessStatusCode)
+     {
+         // download vernan cipher protected secret (Medley vectors) bound to the devices..
+         string connect = response.Content.ReadAsStringAsync().Result;
+         string fpath = @"D:\Examples\INFO\Files\\Connect-" + sin + ".jwt";
+         System.IO.File.WriteAllText(fpath, connect);
+
+
+     }
+     else
+     {
+         // fail
+         string error = response.Content.ReadAsStringAsync().Result;
+         throw new Exception(error);
+     }
+
+ }
+ [TestMethod]
+ public void InfoSec_KD_extract()
+ {
+     // QKD replacement
+     SET_INFO();
+     string sin = Environment.GetEnvironmentVariable("TestA");
+
+     string device = Environment.GetEnvironmentVariable("DeviceTestA");
+     string userTokenPath = @"D:\Examples\Info\Token-" + device + ".json";
+     Fido.FidoProvider fp = new Fido.FidoProvider(userTokenPath);
+
+     string fpath = @"D:\Examples\INFO\Files\\Connect-" + sin + ".jwt";
+     string connectToken = System.IO.File.ReadAllText(fpath);
+
+
+     // Extract Function endpoint 
+      Uri _baseUri = new Uri(fp.Audience());
+
+     // Build funtion endpoint Uri
+     HttpClient _httpClient = new HttpClient();
+     string _relativeUrl = "api/ExtractKey";
+     Uri _uri = new Uri(_baseUri, _relativeUrl);
+     _httpClient.BaseAddress = _baseUri;
+
+     // Add Device Jwtoken
+     _httpClient.DefaultRequestHeaders.Add("x-token", fp.GetJwToken());
+
+     // Add offline connect JwToken as content 
+     StringContent content = new StringContent(connectToken);
+
+     HttpResponseMessage response = _httpClient.PostAsync(_uri, content).Result;
+     if (response.IsSuccessStatusCode)
+     {
+         // download vernan cipher protected secret (Medley vectors) bound to this device..
+         string data = response.Content.ReadAsStringAsync().Result;
+         Fido.LinkInfo li = new Fido.LinkInfo(data);
+         byte[] keyBytes = fp.DeviceEcDhUnProtect(li);
+
+     }
+     else
+     {
+         // fail
+         string error = response.Content.ReadAsStringAsync().Result;
+         throw new Exception(error);
+     }
+
+ }
