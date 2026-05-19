@@ -1,6 +1,6 @@
 # ITS-KD
 Information Theoretic Secure - Key Distribution (ITS-KD)
- ITSKD is a Multiparty Key Distribution (MKD) process for securely establishing a common cryptographic key among two or more end-point devices.
+ ITS-KD is a Multiparty Key Distribution (MKD) process for securely establishing a common cryptographic key among two or more end-point devices.
  ITSKD requires no hardware or chnages to any existing PUblic Key based key distribution systems and makes QKD obsolete before its development.
 
 We’re living in a time of increasingly sophisticated and rapidly changing cyber threats. The threat level is at its highest ever – and previously reliable Public Key based distribution systems are increasingly at risk or have been compromised today.
