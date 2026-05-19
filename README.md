@@ -1,6 +1,6 @@
 # ITS-KD
 Information Theoretic Secure - Key Distribution (ITS-KD)
- ITS-KD is a Multiparty Key Distribution (MKD) process for securely establishing a common cryptographic key among two or more end-point devices.
+ ITS-KD is an autheticated, Multiparty Key Distribution (MKD) process for securely establishing a common cryptographic key among two or more end-point devices.
  All existing key distribution methods assumes an attacker cannot solve discrete logarithms fast enough, ITS-KD guarantees security even against adversaries with infinite computing power and time.
  Instead of computing a shared secret over an insecure channel, two endpoints receive a securely distributed, set of Medley Vectors, which may also be used with legacy AES encryption devices, until upgraded to the ITS One Cipher.
  
