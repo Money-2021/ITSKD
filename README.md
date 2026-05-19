@@ -22,6 +22,7 @@ Information Theoretic Secure - Key Distribution, provides a proven secure replac
 Notes
 1. The ITSKD uses no public key based algoritms
 2. The ITSKD is built upon the ITS -One Cipher and ITS-KMS infastructure.
-3. The ITS-KD comes with this proof of security
+3. The ITS-KD includes an ITS Protected last mile delvery into each end device.
+4. The ITS-KD comes with this proof of security
 https://github.com/Money-2021/VaultedObjects/blob/main/Proof
 
