@@ -14,9 +14,6 @@ There are two supported funtions: Connect and ExtractKey
      string device_sinB = Environment.GetEnvironmentVariable("DeviceTestB");
      string[] devices = new string[] { device_sinA, device_sinB };
 
-     string connectToken = FunctionInfoSec.Providers.JwtProvider.IssueConnectJwtoken(sin, fp.Audience(), devices);
-
-
      // Extract Function endpoint 
        Uri _baseUri = new Uri(fp.Audience());
 
