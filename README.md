@@ -5,9 +5,9 @@ Information Theoretic Secure - Key Distribution (ITS-KD)
 
 We’re living in a time of increasingly sophisticated and rapidly changing cyber threats. The threat level is at its highest ever – and previously reliable Public Key based distribution systems are increasingly at risk or have been compromised today.
 
-At the core Information Theoretic Secured cryptography, and specifically Information Theoretic Secure key distribution (ITSKD), is a vital cybersecurity defense mechanism for organizations advancing toward quantum-proof security architectures.
+At the core Information Theoretic Secured cryptography, and specifically Information Theoretic Secure key distribution (ITS-KD), is a vital cybersecurity defense mechanism for organizations advancing toward quantum-proof security architectures.
 
-The growing importance of ITSKD stems from its ability to address the existing threat of code-breaking quantum computers and smart people, which cannot be proven secure today. 
+The growing importance of ITS-KD stems from its ability to address the existing threat of code-breaking quantum computers and smart people, which cannot be proven secure today. 
 All existing classic and PQC key distribution systems re main vulanerable to attack,  breaking all  public key based key management and distributiuonsystemscurrently used to protect the worlds data. 
 The risk is often associated with quantum day (Q-day), the point when quantum systems are expected to render eall classic and PQC key exchaneg algorithms and standardsobsolete.
 
